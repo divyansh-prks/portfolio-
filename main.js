@@ -72,11 +72,11 @@ function create() {
         coin.setScale(0.2);
     
         // Set up the level crossed message (hidden initially)
-        levelCrossedText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Level 1 Crossed!', {
-            fontSize: '48px',
-            color: '#ff0000',
-            fontWeight: 'bold',
-        }).setOrigin(0.5).setVisible(false);
+        // levelCrossedText = this.add.text(this.scale.width / 2, 4000, 'Level 1 Crossed!', {
+        //     fontSize: '48px',
+        //     color: '#ff0000',
+        //     fontWeight: 'bold',
+        // }).setOrigin(0.5).setVisible(false);
     
 
     //   // Create breaker
@@ -99,13 +99,17 @@ function create() {
     // Play background music
     this.sound.play('backgroundMusic', { loop: true }); // Ensure it's looped
 
+       // Set up the level crossed message (hidden initially)
+       levelCrossedText = this.add.text(this.scale.width / 2 ,300, 'Level 1 Crossed!', {
+        fontSize: '48px',
+        color: '#ff0000',
+        fontWeight: 'bold',
+    }).setOrigin(0.5).setVisible(false);
 
 
     // Add "Contact Me" button
-    const contactButton = this.add.text(this.scale.width - 370, 150, 'Contact Me', {
+    const contactButton = this.add.text(this.scale.width - 370, 150, '      ', {
         fontSize: '40px',
-        color: '#000000',
-        backgroundColor: "#D2B48C",
         padding: { x: 10, y: 15 },
         align: 'center',
     }).setInteractive(); // Make the button clickable
@@ -129,7 +133,7 @@ function update() {
 
 
 
-    const levelCompleteText = this.add.text(400, 200, '', {
+    const levelCompleteText = this.add.text(0, 600, '', {
         font: '32px Arial',
         fill: '#fff'
     }).setOrigin(0.5);
@@ -163,34 +167,66 @@ function update() {
     if (cursors.down.isDown) {
         player.setVelocityY(350); // Move down (positive Y velocity)
     }
-    
-    this.physics.add.collider(player, box, function() {
-        // When the player collides with the box, stop movement
-        player.setVelocityX(0);  // Stop horizontal movement
-        player.setVelocityY(0);  // Stop vertical movement
-    });
 
-    // If no key is pressed, the character should stand straight (no movement)
-    if (!cursors.left.isDown && !cursors.right.isDown) {
-        player.setVelocityX(0); // Stop horizontal movement
-        
-        // Reset character facing direction (keep standing straight)
-        player.setFlipX(false); // Default to facing right (or facing forward)
+    if (background.texture.key === 'background3') {
+        if (!box) {
+            box = this.physics.add.staticSprite(1000, this.scale.height - 150, 'box');
+            box.setScale(1.5);
+            coin = this.physics.add.sprite(1000, this.scale.height - 300, 'coin');
+            coin.setScale(0.2);
+        }
+
+        // Add collision between player and box
+        this.physics.add.collider(player, box, function() {
+            player.setVelocityX(0);  // Stop horizontal movement
+            player.setVelocityY(0);  // Stop vertical movement
+        });
+
+        // Collision with the coin
+        this.physics.add.collider(player, coin, function() {
+            player.setVelocityY(0);  // Stop vertical movement
+            levelCrossedText.setText('Level 1 Completed'); // Set message text
+            levelCrossedText.setAlpha(1);  // Ensure text is fully visible
+            levelCrossedText.setVisible(true); 
+            coin.destroy(); // Destroy the coin after collection
+        });
+    } else {
+        // If not background2, destroy box and coin if they exist
+        if (box) {
+            box.destroy();
+            coin.destroy();
+            box = null;
+            coin = null;
+        }
     }
 
-    // Detect collision with the coin
-this.physics.add.collider(player, coin, function() {
-    // When the player collects the coin, stop movement
-    // player.setVelocityX(0);  // Stop horizontal movement
-    player.setVelocityY(0);  // Stop vertical movement
+    // this.physics.add.collider(player, box, function() {
+    //     // When the player collides with the box, stop movement
+    //     player.setVelocityX(0);  // Stop horizontal movement
+    //     player.setVelocityY(0);  // Stop vertical movement
+    // });
 
-    // Display the "Level 1 Completed" message
-    levelCompleteText.setText('Level 1 Completed');
-    levelCompleteText.setAlpha(1);  // Show the text
+    // // If no key is pressed, the character should stand straight (no movement)
+    // if (!cursors.left.isDown && !cursors.right.isDown) {
+    //     player.setVelocityX(0); // Stop horizontal movement
+        
+    //     // Reset character facing direction (keep standing straight)
+    //     player.setFlipX(false); // Default to facing right (or facing forward)
+    // }
 
-    // Optionally, you can destroy the coin after it’s collected
-    coin.destroy(); // Removes the coin from the game
-});
+//     // Detect collision with the coin
+// this.physics.add.collider(player, coin, function() {
+//     // When the player collects the coin, stop movement
+//     // player.setVelocityX(0);  // Stop horizontal movement
+//     player.setVelocityY(0);  // Stop vertical movement
+
+//     // Display the "Level 1 Completed" message
+//     levelCompleteText.setText('Level 1 Completed');
+//     levelCompleteText.setAlpha(1);  // Show the text
+
+//     // Optionally, you can destroy the coin after it’s collected
+//     coin.destroy(); // Removes the coin from the game
+// });
 
 
     // //1

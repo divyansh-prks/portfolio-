@@ -27,3 +27,47 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 Exit Code: 0
 ----
+Command: git add .
+Output:
+
+Exit Code: 0
+----
+Command: git commit -m "person now can move to left boundary if touches left boundary"
+Output:
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   command_output.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Exit Code: 1
+----
+Command: git push origin master
+Output:
+Everything up-to-date
+Exit Code: 0
+----
+Command: git status
+Output:
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   command_output.log
+	modified:   main.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	assets/box.jpeg
+	assets/box.png
+	assets/coin.png
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Exit Code: 0
+----

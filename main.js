@@ -27,6 +27,13 @@ const config = {
   let currentBackground = 'background'; // Keep track of the current background
   let breaker; 
   let isJumping = false; 
+  let box ;
+  let coin ;
+
+  let levelCrossedText;
+  let hasCrossedLevel1 = false; // Flag to check if level 1 is crossed
+  
+
 
   
   // Preload: Load game assets
@@ -37,6 +44,8 @@ function preload() {
     this.load.image('background3', 'assets/background3.jpg'); // Third background
     this.load.image('background4', 'assets/background4.jpg'); // Fourth background
     this.load.image('character', 'assets/character2.png');
+    this.load.image('box', 'assets/box.png'); // Add a box image
+    this.load.image('coin', 'assets/coin.png'); // Add a coin image
     //adding a cactus feature so that characeter will jump 
     // this.load.image('breaker' , 'assets/cactus.png')
     this.load.audio('backgroundMusic', 'assets/background-music.mp3');
@@ -56,6 +65,19 @@ function create() {
     // player.body.setGravityY(3000); 
 
 
+        // Add box and coin on the second background
+        box = this.physics.add.staticSprite(1000, this.scale.height - 150, 'box'); // Box position
+        box.setScale(1.5)
+        coin = this.physics.add.sprite(1000, this.scale.height - 300, 'coin'); // Coin position
+        coin.setScale(0.2);
+    
+        // Set up the level crossed message (hidden initially)
+        levelCrossedText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Level 1 Crossed!', {
+            fontSize: '48px',
+            color: '#ff0000',
+            fontWeight: 'bold',
+        }).setOrigin(0.5).setVisible(false);
+    
 
     //   // Create breaker
     //   breaker = this.physics.add.staticSprite(1000, this.scale.height - 205, 'breaker');
@@ -96,20 +118,29 @@ function create() {
     contactButton.on('pointerup', () => {
         window.location.href = 'contact.html'; // Redirect to the contact page
     });
+
+
+
 }
 
 // Update: Game loop, checks for input
 function update() {
+
+
+
+
+    const levelCompleteText = this.add.text(400, 200, '', {
+        font: '32px Arial',
+        fill: '#fff'
+    }).setOrigin(0.5);
+    levelCompleteText.setAlpha(0); // Hide the text initially
+    
     // Reset velocity (stop movement when no key is pressed)
     player.setVelocity(0);
 
 
 
-    if (cursors.up.isDown ) {
-        // jump();
-        player.setVelocityY(-350); // Adjust jump height by changing -350
-        
-    }
+
 
     // Move right
     if (cursors.right.isDown) {
@@ -126,6 +157,18 @@ function update() {
         // Make the character face left (flip scale horizontally)
         player.setFlipX(true); // Flip the character to face left
     }
+    if (cursors.up.isDown ) {
+        player.setVelocityY(-350); // Jump
+    }
+    if (cursors.down.isDown) {
+        player.setVelocityY(350); // Move down (positive Y velocity)
+    }
+    
+    this.physics.add.collider(player, box, function() {
+        // When the player collides with the box, stop movement
+        player.setVelocityX(0);  // Stop horizontal movement
+        player.setVelocityY(0);  // Stop vertical movement
+    });
 
     // If no key is pressed, the character should stand straight (no movement)
     if (!cursors.left.isDown && !cursors.right.isDown) {
@@ -135,6 +178,19 @@ function update() {
         player.setFlipX(false); // Default to facing right (or facing forward)
     }
 
+    // Detect collision with the coin
+this.physics.add.collider(player, coin, function() {
+    // When the player collects the coin, stop movement
+    // player.setVelocityX(0);  // Stop horizontal movement
+    player.setVelocityY(0);  // Stop vertical movement
+
+    // Display the "Level 1 Completed" message
+    levelCompleteText.setText('Level 1 Completed');
+    levelCompleteText.setAlpha(1);  // Show the text
+
+    // Optionally, you can destroy the coin after it’s collected
+    coin.destroy(); // Removes the coin from the game
+});
 
 
     // //1
@@ -223,6 +279,7 @@ if (player.x < 150 && background.texture.key === "background4") {
     player.setVelocityX(0);
     player.setPosition(1600, this.scale.height - 270);
 }
+
 
  
 }

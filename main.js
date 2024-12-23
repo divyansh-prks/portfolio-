@@ -46,6 +46,13 @@ function preload() {
     this.load.image('character', 'assets/character2.png');
     this.load.image('box', 'assets/box.png'); // Add a box image
     this.load.image('coin', 'assets/coin.png'); // Add a coin image
+    this.load.image('rocket', 'assets/rocket.png');
+    this.load.audio('rocketSound', 'assets/rocket.mp3'); // Replace with the path to the audio file
+
+    this.load.audio('coin', 'assets/coin.wav'); // Replace with the path to the audio file
+
+
+
     //adding a cactus feature so that characeter will jump 
     // this.load.image('breaker' , 'assets/cactus.png')
     this.load.audio('backgroundMusic', 'assets/background-music.mp3');
@@ -102,6 +109,11 @@ function create() {
        // Set up the level crossed message (hidden initially)
        levelCrossedText = this.add.text(this.scale.width / 2 ,300, 'Level 1 Crossed!', {
         fontSize: '48px',
+        fontFamily: '"Press Start 2P"', // Custom gaming font
+        color: '#ff0000',
+        fontWeight: 'bold',
+        stroke: '#000000',            // Add a stroke for a gaming look
+        strokeThickness: 4   ,         // Thickness of the stroke
         color: '#ff0000',
         fontWeight: 'bold',
     }).setOrigin(0.5).setVisible(false);
@@ -124,6 +136,187 @@ function create() {
     });
 
 
+
+    const skills = this.add.text(this.scale.width - 1160, 100, '              ', {
+        fontSize: '40px',
+        padding: { x: 10, y: 15 },
+        align: 'center',
+    }).setInteractive(); // Make the button clickable
+
+    // Position the button
+    contactButton.setOrigin(0.5, 0.5);
+    contactButton.setStyle({ borderRadius: '10px' });
+
+    // Button click event to redirect
+    skills.on('pointerup', () => {
+
+         if (background.texture.key === 'background3') {
+        alert("You are already on the skills page");
+         } else{
+
+        
+    //     player.setPosition(150, this.scale.height - 270); // Reset position closer to left boundary
+    // player.setVisible(false);
+
+    // // Add the rocket sprite at the center height
+    // const rocket = this.add.sprite(this.scale.width / 2, this.scale.height / 2, 'rocket');
+
+    // // Optionally, scale the rocket for better visibility
+    // rocket.setScale(0.5);
+    //     background.setTexture('background3');
+        // window.location.href = 'contact.html'; // Redirect to the contact page
+
+            player.setVisible(false);
+
+    // Add the rocket sprite at the left boundary, center height
+    const rocket = this.add.sprite(0, this.scale.height / 2, 'rocket');
+        const rocketSound = this.sound.add('rocketSound');
+        rocketSound.play();
+
+    // Optionally, scale the rocket
+    rocket.setScale(0.5);
+
+    // Animate the rocket to move from left to right boundary
+    this.tweens.add({
+        targets: rocket,
+        x: this.scale.width, // Move to the right boundary
+        duration: 3000,      // 3 seconds
+        ease: 'Linear',      // Linear movement
+        onComplete: () => {
+            // Change the background when the rocket reaches the right boundary
+            rocketSound.stop();
+            background.setTexture('background3');
+            player.setVisible(true)
+             player.setPosition(150, this.scale.height - 270); 
+            
+            // Optionally, make the rocket disappear
+            rocket.destroy();
+        },
+    });
+}
+    });
+
+    
+    const project = this.add.text(this.scale.width - 800, 100, '        ', {
+        fontSize: '40px',
+        padding: { x: 10, y: 15 },
+        align: 'center',
+    }).setInteractive(); // Make the button clickable
+
+    // Position the button
+    contactButton.setOrigin(0.5, 0.5);
+    contactButton.setStyle({ borderRadius: '10px' });
+
+    // Button click event to redirect
+    project.on('pointerup', () => {
+
+         if (background.texture.key === 'background4') {
+        alert("You are already on the project page");
+         } else{
+
+        
+    //     player.setPosition(150, this.scale.height - 270); // Reset position closer to left boundary
+    // player.setVisible(false);
+
+    // // Add the rocket sprite at the center height
+    // const rocket = this.add.sprite(this.scale.width / 2, this.scale.height / 2, 'rocket');
+
+    // // Optionally, scale the rocket for better visibility
+    // rocket.setScale(0.5);
+    //     background.setTexture('background3');
+        // window.location.href = 'contact.html'; // Redirect to the contact page
+
+            player.setVisible(false);
+
+    // Add the rocket sprite at the left boundary, center height
+    const rocket = this.add.sprite(0, this.scale.height / 2, 'rocket');
+  const rocketSound = this.sound.add('rocketSound');
+        rocketSound.play();
+    // Optionally, scale the rocket
+    rocket.setScale(0.5);
+
+    // Animate the rocket to move from left to right boundary
+    this.tweens.add({
+        targets: rocket,
+        x: this.scale.width, // Move to the right boundary
+        duration: 3000,      // 3 seconds
+        ease: 'Linear',      // Linear movement
+        onComplete: () => {
+            rocketSound.stop();
+            // Change the background when the rocket reaches the right boundary
+            background.setTexture('background4');
+            player.setVisible(true)
+             player.setPosition(150, this.scale.height - 270); 
+            
+            // Optionally, make the rocket disappear
+            rocket.destroy();
+        },
+    });
+     }
+    });
+
+
+
+    const myself = this.add.text(this.scale.width - 1520, 100, '         ', {
+        fontSize: '40px',
+        padding: { x: 10, y: 15 },
+        align: 'center',
+    }).setInteractive(); // Make the button clickable
+
+    // Position the button
+    contactButton.setOrigin(0.5, 0.5);
+    contactButton.setStyle({ borderRadius: '10px' });
+
+    // Button click event to redirect
+    myself.on('pointerup', () => {
+
+         if (background.texture.key === 'background') {
+        alert("You are already on the myself page");
+         } else{
+
+             //     player.setPosition(150, this.scale.height - 270); // Reset position closer to left boundary
+             // player.setVisible(false);
+             
+             // // Add the rocket sprite at the center height
+    // const rocket = this.add.sprite(this.scale.width / 2, this.scale.height / 2, 'rocket');
+
+    // // Optionally, scale the rocket for better visibility
+    // rocket.setScale(0.5);
+    //     background.setTexture('background3');
+        // window.location.href = 'contact.html'; // Redirect to the contact page
+
+            player.setVisible(false);
+
+            // Add the rocket sprite at the left boundary, center height
+            const rocket = this.add.sprite(0, this.scale.height / 2, 'rocket');
+            const rocketSound = this.sound.add('rocketSound');
+            rocketSound.play();
+            
+            // Optionally, scale the rocket
+            rocket.setScale(0.5);
+            
+            // Animate the rocket to move from left to right boundary
+            this.tweens.add({
+                targets: rocket,
+                x: this.scale.width, // Move to the right boundary
+                duration: 3000,      // 3 seconds
+                ease: 'Linear',      // Linear movement
+                onComplete: () => {
+                    rocketSound.stop();
+                    // Change the background when the rocket reaches the right boundary
+                    background.setTexture('background');
+                    player.setVisible(true)
+                    player.setPosition(150, this.scale.height - 270); 
+                    
+                    // Optionally, make the rocket disappear
+                    rocket.destroy();
+                },
+            });
+        }
+    });
+
+
+    
 
 }
 
@@ -162,11 +355,20 @@ function update() {
         player.setFlipX(true); // Flip the character to face left
     }
     if (cursors.up.isDown ) {
+
+        if (player.height)
         player.setVelocityY(-350); // Jump
+
     }
     if (cursors.down.isDown) {
         player.setVelocityY(350); // Move down (positive Y velocity)
     }
+
+    if (player.y > this.scale.height - 270) {
+        player.setVelocityY(0); // Stop downward movement
+        player.setY(this.scale.height - 270); // Reset player position to the limit
+    }
+
 
     if (background.texture.key === 'background3') {
         if (!box) {

@@ -61,6 +61,14 @@ function preload() {
   // Create: Add assets to the screen
 // Create: Add assets to the screen
 function create() {
+
+    if (this.sys.game.device.os.android || this.sys.game.device.os.iOS) {
+        console.log("Mobile device detected, redirecting...");
+
+        // Redirect to a "not-supported.html" page
+        window.location.href = "not-supported.html"; 
+        return; // Stop game execution
+    }
     // Add the first background image
     background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     background.setDisplaySize(this.scale.width, this.scale.height); // Set to fill the screen
